@@ -13,9 +13,9 @@ namespace ERP.Accounting.Infrastructure.Persistence.Repositories
     public class AnexosRepository : IAnexosRepository
     {
 
-        private readonly AppDbContext _db;
+        private readonly AccountingDbContext _db;
 
-        public AnexosRepository(AppDbContext db)
+        public AnexosRepository(AccountingDbContext db)
         {
             _db = db;
         }

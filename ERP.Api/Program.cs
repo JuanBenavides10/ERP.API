@@ -15,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Conexion con PostgreSQL
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<AccountingDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("PostgreSQL")
     )

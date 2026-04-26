@@ -104,7 +104,7 @@ namespace ERP.Api.Controllers.ERP.Accounting
             {
                 Success = true,
                 StatusCode = 200,
-                Message = "Eliminado"
+                Message = "Eliminado" 
             });
         }
 

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ERP.Accounting.Infrastructure.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(AccountingDbContext))]
     [Migration("20260426034327_AppContable")]
     partial class AppContable
     {

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ERP.Accounting.Infrastructure.Persistence.DbContexts
 {
-    public class AppDbContext : DbContext
+    public class AccountingDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public AccountingDbContext(DbContextOptions<AccountingDbContext> options) : base(options)
         {
         }
 
@@ -18,7 +18,7 @@ namespace ERP.Accounting.Infrastructure.Persistence.DbContexts
         public DbSet<AnexosEntity> Anexos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)   // Aplica TODAS las configuraciones IEntityTypeConfiguration<>
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountingDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }
     }
