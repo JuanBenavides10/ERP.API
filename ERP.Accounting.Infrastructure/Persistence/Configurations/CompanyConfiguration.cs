@@ -31,11 +31,11 @@ namespace ERP.Accounting.Infrastructure.Persistence.Configurations
                    .IsRequired();
 
             builder.Property(c => c.company_name)
-                   .HasColumnType("varchar(200)") 
+                   .HasColumnType("varchar(120)") 
                    .IsRequired();
 
             builder.Property(c => c.address)
-                   .HasColumnType("varchar(250)")
+                   .HasColumnType("varchar(200)")
                    .IsRequired();
 
             builder.Property(c => c.ruc)
@@ -43,10 +43,10 @@ namespace ERP.Accounting.Infrastructure.Persistence.Configurations
                  .IsRequired();
 
             builder.Property(c => c.email)
-                .HasColumnType("varchar(30)");
+                .HasColumnType("varchar(40)");
 
             builder.Property(c => c.phone)
-               .HasColumnType("varchar(20)");
+               .HasColumnType("varchar(25)");
 
             builder.Property(c => c.logo)
                       .HasColumnType("bytea");
