@@ -12,7 +12,7 @@ namespace ERP.Accounting.Infrastructure.Persistence.Repositories
         private readonly AccountingDbContext _db;
         public CompanyRepository(AccountingDbContext db)
         {
-            _db = db;
+            _db = db; //
         }
     }
 }
