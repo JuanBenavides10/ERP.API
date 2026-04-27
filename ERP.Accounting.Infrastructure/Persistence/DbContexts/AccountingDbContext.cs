@@ -1,4 +1,5 @@
 ﻿using ERP.Accounting.Domain.Entities;
+using ERP.Accounting.Domain.Entities.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace ERP.Accounting.Infrastructure.Persistence.DbContexts
 
         // DbSets
         public DbSet<AnexosEntity> Anexos { get; set; }
+        public DbSet<CompanyEntity> Companies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)   // Aplica TODAS las configuraciones IEntityTypeConfiguration<>
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountingDbContext).Assembly);

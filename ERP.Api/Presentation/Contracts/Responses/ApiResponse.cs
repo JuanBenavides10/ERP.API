@@ -1,4 +1,4 @@
-﻿namespace ERP.Api.Contracts.Responses
+﻿namespace ERP.Api.Presentation.Contracts.Responses
 {
     public class ApiResponse<T>
     {

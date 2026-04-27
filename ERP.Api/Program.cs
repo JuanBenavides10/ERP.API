@@ -1,9 +1,12 @@
 using ERP.Accounting.Application.Interfaces;
+using ERP.Accounting.Application.Interfaces.Configuration;
 using ERP.Accounting.Application.Mappings;
 using ERP.Accounting.Application.Services;
+using ERP.Accounting.Application.Services.Configuration;
 using ERP.Accounting.Infrastructure.Persistence.DbContexts;
 using ERP.Accounting.Infrastructure.Persistence.Repositories;
-using ERP.Api.Contracts.Responses;
+using ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration;
+using ERP.Api.Presentation.Contracts.Responses;
 using ERP.Identity.Infrastructure.Persistence.DbContexts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -62,8 +65,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 //DI
 
-builder.Services.AddScoped<IAnexosService, AnexosService>();
-builder.Services.AddScoped<IAnexosRepository, AnexosRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 
 var app = builder.Build();

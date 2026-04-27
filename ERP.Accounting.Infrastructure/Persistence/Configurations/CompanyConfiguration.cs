@@ -1,4 +1,4 @@
-﻿using ERP.Accounting.Domain.Entities;
+﻿using ERP.Accounting.Domain.Entities.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP.Accounting.Domain.Entities
+namespace ERP.Accounting.Domain.Entities.Configuration
 {
     public class CompanyEntity
     {
