@@ -20,7 +20,7 @@ namespace ERP.Accounting.Application.DTOs.Requests.Configuration
 
         [Display(Name = "Direccion")]
         [StringLength(maximumLength: 200, ErrorMessage = "El campo {0} debe ser menor igual a {1} caracteres")]
-        public string address { get; set; }
+        public string address { get; set; } 
 
         [Display(Name = "Ruc")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
