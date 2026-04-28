@@ -1,0 +1,21 @@
+﻿using AutoMapper;
+using ERP.Identity.Application.DTOs.Requests;
+using ERP.Identity.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace ERP.Identity.Application.Mappings
+{
+    public class IdentityProfile : Profile
+    {
+        public IdentityProfile()
+        {
+            CreateMap<CreateUserRequest, Users>();
+        
+        }
+    }
+}

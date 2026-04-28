@@ -1,4 +1,5 @@
 ﻿using ERP.Api.Contracts.Responses;
+using ERP.Api.Presentation.Contracts.Responses;
 using ERP.Identity.Application.DTOs.Requests;
 using ERP.Identity.Application.DTOs.Responses;
 using ERP.Identity.Application.Interfaces;
@@ -28,8 +29,8 @@ namespace ERP.Api.Controllers.ERP.Identity
             {
                 Success = true,
                 StatusCode = 200,
-                Message = "OK",
-                Data = data
+                Message = data.message,
+                Data = null
             });
         }
     }
