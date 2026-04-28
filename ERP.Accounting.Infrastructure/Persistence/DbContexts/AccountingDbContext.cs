@@ -16,7 +16,6 @@ namespace ERP.Accounting.Infrastructure.Persistence.DbContexts
         }
 
         // DbSets
-        public DbSet<AnexosEntity> Anexos { get; set; }
         public DbSet<CompanyEntity> Companies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)   // Aplica TODAS las configuraciones IEntityTypeConfiguration<>
         {

@@ -10,6 +10,7 @@ namespace ERP.Accounting.Application.Interfaces.Configuration
     public interface ICompanyRepository
     {
         void Add(CompanyEntity entity);
+        Task<bool> ExistsByCodeAsync(string code, CancellationToken ct = default);
         Task<CompanyEntity?> GetByIdAsync(Guid uuid, CancellationToken ct = default);
         Task<int> SaveChangesAsync(CancellationToken ct = default);
     }

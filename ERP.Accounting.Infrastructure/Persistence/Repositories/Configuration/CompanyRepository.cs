@@ -30,6 +30,12 @@ namespace ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration
         {
             return _db.SaveChangesAsync(ct);
         }
-     
+
+        public Task<bool> ExistsByCodeAsync(string code, CancellationToken ct = default)
+        {
+            return _db.Companies.AsNoTracking().AnyAsync(x => x.code == code, ct);
+        }
+
+
     }
 }

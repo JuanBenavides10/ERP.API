@@ -1,5 +1,5 @@
 using ERP.Accounting.Application.Interfaces.Configuration;
-using ERP.Accounting.Application.Mappings;
+using ERP.Accounting.Application.Mappings.Configuration;
 using ERP.Accounting.Application.Services.Configuration;
 using ERP.Accounting.Infrastructure.Persistence.DbContexts;
 using ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration;
@@ -33,7 +33,7 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 
 
 //AutoMapper -> para mapear de las entidades a los DTOs o viceverca
-builder.Services.AddAutoMapper(cfg => { }, typeof(AnexosProfile));
+builder.Services.AddAutoMapper(cfg => { }, typeof(CompanyProfile));
 
 //Cambiamos el codigo de error Http del ModelState , de 400 a 422 segun se acordo
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -54,10 +54,10 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
         var response422 = new ApiResponse<object>
         {
-            Success = false,
-            StatusCode = 422,
-            Message = "Error de validación",
-            Errors = errores
+            success = false,
+            status_code = 422,
+            message = "Error de validación",
+            errors = errores
         };
 
         return new UnprocessableEntityObjectResult(response422);

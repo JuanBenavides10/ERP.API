@@ -24,9 +24,14 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
         {
             try
             {
-                var data = await _companyService.GetByIdAsync(uuid,ct);
+                var result = await _companyService.GetByIdAsync(uuid,ct);
 
-                return ApiResponseFactory.Success(data,"Compañia obtenida correctamente");
+                if (result.is_valid)
+                {
+                    return ApiResponseFactory.ValidationError(result.message);
+                }
+
+                return ApiResponseFactory.Success(result.data, result.message);
             }
             catch (Exception ex)
             {
@@ -34,12 +39,19 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
             }
         }
 
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCompanyRequest request, CancellationToken ct)
         {
             try
             {
-                var data = await _companyService.CreateAsync(request, ct);
-                return ApiResponseFactory.Success(data, "Compañía creada correctamente");
+                var result = await _companyService.CreateAsync(request, ct);
+
+                if (result.is_valid)
+                {
+                    return ApiResponseFactory.ValidationError(result.message);
+                }
+
+                return ApiResponseFactory.Success(result.message);
             }
             catch (Exception ex)
             {

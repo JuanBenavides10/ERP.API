@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ERP.Accounting.Application.Contracts;
 using ERP.Accounting.Application.DTOs.Requests;
 using ERP.Accounting.Application.DTOs.Requests.Configuration;
 using ERP.Accounting.Application.DTOs.Responses;
@@ -26,25 +27,42 @@ namespace ERP.Accounting.Application.Services.Configuration
             _mapper = mapper;
         }
 
-        public async Task<GetCompanyResponse?> GetByIdAsync(Guid uuid, CancellationToken ct)
+        public async Task<ValidationResponse<GetCompanyResponse>> GetByIdAsync(Guid uuid, CancellationToken ct)
         {
+            if (uuid == Guid.Empty)
+            {
+                return ValidationResponse<GetCompanyResponse>.Failure("El identificador de la compañía es inválido.");
+            }
             var entity = await _companyRepository.GetByIdAsync(uuid, ct);
 
-            if (entity is null) return null;
+            if (entity == null)
+            {
+                return ValidationResponse<GetCompanyResponse>.Failure("La compañía consultada no se encuentra registrada en el sistema.");
+            }
 
-            return _mapper.Map<GetCompanyResponse>(entity);
+            var dto = _mapper.Map<GetCompanyResponse>(entity);
+
+            return ValidationResponse<GetCompanyResponse>.Success(dto, "Compañía obtenida correctamente");
         }
 
-        public async Task<GetCompanyResponse> CreateAsync(CreateCompanyRequest request, CancellationToken ct)
-        {
+        public async Task<ValidationResponse> CreateAsync(CreateCompanyRequest request, CancellationToken ct)
+        {      
+            var exists = await _companyRepository.ExistsByCodeAsync(request.code, ct);
+
+            if (exists)
+            {
+                return ValidationResponse.Failure("Ya existe una compañía registrada con el mismo codigo.");
+            }
+              
             var entity = _mapper.Map<CompanyEntity>(request);
 
             _companyRepository.Add(entity);
             await _companyRepository.SaveChangesAsync(ct);
 
-            return _mapper.Map<GetCompanyResponse>(entity);
+            return ValidationResponse.Success("Compañía creada correctamente.");
         }
-        
+
+
 
     }
 
