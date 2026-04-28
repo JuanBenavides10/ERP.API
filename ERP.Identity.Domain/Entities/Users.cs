@@ -9,6 +9,7 @@ namespace ERP.Identity.Domain.Entities
     public class Users
     {
         public int id { get; set; }
+        public Guid uuid { get; set; }
         public int person_id { get; set; }
         public string? user_name { get; set; }
         public byte[] password_hash { get; set; } = Array.Empty<byte>();

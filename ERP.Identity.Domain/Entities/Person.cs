@@ -9,7 +9,7 @@ namespace ERP.Identity.Domain.Entities
     public class Person
     {
         public int id { get; set; }
-        public string? uuid { get; set; }
+        public Guid uuid { get; set; }
         public string? first_name { get; set; }
         public string? last_name { get; set; }
         public string? document_type { get; set; }

@@ -12,24 +12,32 @@ namespace ERP.Identity.Infrastructure.Persistence.Configurations
 
             builder.HasKey(x => x.id);
 
+            builder.HasIndex(x => x.uuid).IsUnique();
+
+            builder.Property(x => x.uuid)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("gen_random_uuid()")
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
             builder.Property(x => x.first_name)
-                   .IsRequired()
-                   .HasMaxLength(100);
+                .IsRequired()
+                .HasMaxLength(100);
 
             builder.Property(x => x.last_name)
-                   .HasMaxLength(100);
+                .HasMaxLength(100);
 
             builder.Property(x => x.document_type)
-                   .HasMaxLength(20);
+                .HasMaxLength(20);
 
             builder.Property(x => x.email)
-                   .HasMaxLength(100);
+                .HasMaxLength(100);
 
             builder.Property(x => x.active)
-                   .HasDefaultValue(true);
+                .HasDefaultValue(true);
 
             builder.Property(x => x.created_at)
-                   .HasDefaultValueSql("now()");
+                .HasDefaultValueSql("now()");
         }
     }
 }

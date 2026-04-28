@@ -12,6 +12,14 @@ namespace ERP.Identity.Infrastructure.Persistence.Configurations
 
             builder.HasKey(x => x.id);
 
+            builder.HasIndex(x => x.uuid).IsUnique();
+
+            builder.Property(x => x.uuid)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("gen_random_uuid()")
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
             builder.Property(x => x.person_id)
                 .IsRequired();
 

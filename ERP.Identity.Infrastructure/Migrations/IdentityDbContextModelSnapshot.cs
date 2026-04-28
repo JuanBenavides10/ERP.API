@@ -61,10 +61,15 @@ namespace ERP.Identity.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("uuid")
-                        .HasColumnType("text");
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.HasKey("id");
+
+                    b.HasIndex("uuid")
+                        .IsUnique();
 
                     b.ToTable("persons", "identity");
                 });
@@ -111,11 +116,19 @@ namespace ERP.Identity.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<Guid>("uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
                     b.HasKey("id");
 
                     b.HasIndex("person_id");
 
                     b.HasIndex("user_name")
+                        .IsUnique();
+
+                    b.HasIndex("uuid")
                         .IsUnique();
 
                     b.ToTable("users", "identity");

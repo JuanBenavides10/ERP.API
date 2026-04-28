@@ -12,11 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ERP.Identity.Application\ERP.Identity.Application.csproj" />
     <ProjectReference Include="..\ERP.Identity.Domain\ERP.Identity.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Persistence\Repositories\" />
   </ItemGroup>
 
 </Project>

@@ -7,18 +7,22 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Identity.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class create_user : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "identity");
+
             migrationBuilder.CreateTable(
                 name: "persons",
+                schema: "identity",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    uuid = table.Column<string>(type: "text", nullable: true),
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     document_type = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
@@ -34,10 +38,12 @@ namespace ERP.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "users",
+                schema: "identity",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    uuid = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     person_id = table.Column<int>(type: "integer", nullable: false),
                     user_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     password_hash = table.Column<byte[]>(type: "bytea", nullable: false),
@@ -53,20 +59,37 @@ namespace ERP.Identity.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_users_persons_person_id",
                         column: x => x.person_id,
+                        principalSchema: "identity",
                         principalTable: "persons",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_persons_uuid",
+                schema: "identity",
+                table: "persons",
+                column: "uuid",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_users_person_id",
+                schema: "identity",
                 table: "users",
                 column: "person_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_user_name",
+                schema: "identity",
                 table: "users",
                 column: "user_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_uuid",
+                schema: "identity",
+                table: "users",
+                column: "uuid",
                 unique: true);
         }
 
@@ -74,10 +97,12 @@ namespace ERP.Identity.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "users");
+                name: "users",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "persons");
+                name: "persons",
+                schema: "identity");
         }
     }
 }

@@ -1,13 +1,14 @@
-using ERP.Accounting.Application.Interfaces;
 using ERP.Accounting.Application.Interfaces.Configuration;
 using ERP.Accounting.Application.Mappings;
-using ERP.Accounting.Application.Services;
 using ERP.Accounting.Application.Services.Configuration;
 using ERP.Accounting.Infrastructure.Persistence.DbContexts;
-using ERP.Accounting.Infrastructure.Persistence.Repositories;
 using ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration;
+using ERP.Api.Middleware;
 using ERP.Api.Presentation.Contracts.Responses;
+using ERP.Identity.Application.Interfaces;
+using ERP.Identity.Application.Services;
 using ERP.Identity.Infrastructure.Persistence.DbContexts;
+using ERP.Identity.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -68,9 +69,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
