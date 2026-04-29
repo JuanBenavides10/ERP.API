@@ -1,5 +1,5 @@
 ﻿
-using ERP.Api.Presentation.Contracts.Responses;
+using ERP.Api.Presentation.Contracts;
 using ERP.Identity.Application.DTOs.Requests;
 using ERP.Identity.Application.DTOs.Responses;
 using ERP.Identity.Application.Interfaces;
@@ -27,10 +27,10 @@ namespace ERP.Api.Controllers.ERP.Identity
             var data = await _service.create_user(request);
             return Ok(new ApiResponse<UserResponse>
             {
-                success = true,
-                status_code = 200,
-                message = data.message,
-                data = null
+                Success = true,
+                StatusCode= 200,
+                Message = data.message,
+                Data = null
             });
         }
     }

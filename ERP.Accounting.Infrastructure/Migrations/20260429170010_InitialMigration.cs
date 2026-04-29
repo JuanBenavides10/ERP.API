@@ -7,14 +7,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Accounting.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Company : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Anexos");
-
             migrationBuilder.CreateTable(
                 name: "companies",
                 columns: table => new
@@ -32,11 +29,11 @@ namespace ERP.Accounting.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_companies", x => x.id);
+                    table.PrimaryKey("pk_companies", x => x.id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_companies_uuid",
+                name: "ix_companies_uuid",
                 table: "companies",
                 column: "uuid",
                 unique: true);
@@ -47,28 +44,6 @@ namespace ERP.Accounting.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "companies");
-
-            migrationBuilder.CreateTable(
-                name: "Anexos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Codigo = table.Column<string>(type: "varchar(20)", nullable: false),
-                    RazonSocial = table.Column<string>(type: "varchar(250)", nullable: false),
-                    TipoAnexo = table.Column<string>(type: "char(1)", nullable: false),
-                    UuId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Anexos", x => x.Id);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Anexos_UuId",
-                table: "Anexos",
-                column: "UuId",
-                unique: true);
         }
     }
 }

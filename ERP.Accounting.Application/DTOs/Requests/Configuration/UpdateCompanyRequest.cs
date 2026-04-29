@@ -8,12 +8,12 @@ namespace ERP.Accounting.Application.DTOs.Requests.Configuration
 {
     public class UpdateCompanyRequest
     {
-        public string code { get; set; }
-        public string company_name { get; set; }
-        public string address { get; set; }
-        public string ruc { get; set; }
-        public string? email { get; set; }
-        public string? phone { get; set; }
-        public byte[]? logo { get; set; }
+        public string Code { get; set; }
+        public string CompanyName { get; set; }
+        public string Address { get; set; }
+        public string Ruc { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
+        public byte[]? Logo { get; set; }
     }
 }

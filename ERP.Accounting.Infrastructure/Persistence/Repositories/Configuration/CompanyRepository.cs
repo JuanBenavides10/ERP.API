@@ -20,7 +20,7 @@ namespace ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration
         }
         public Task<CompanyEntity?> GetByIdAsync(Guid uuid, CancellationToken ct = default) //AsNoTracking -> solo lectura
         {
-           return _db.Companies.AsNoTracking().FirstOrDefaultAsync(x => x.uuid == uuid,ct);
+           return _db.Companies.AsNoTracking().FirstOrDefaultAsync(x => x.Uuid == uuid,ct);
         }
         public void Add(CompanyEntity entity)
         {
@@ -33,7 +33,7 @@ namespace ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration
 
         public Task<bool> ExistsByCodeAsync(string code, CancellationToken ct = default)
         {
-            return _db.Companies.AsNoTracking().AnyAsync(x => x.code == code, ct);
+            return _db.Companies.AsNoTracking().AnyAsync(x => x.Code == code, ct);
         }
 
 

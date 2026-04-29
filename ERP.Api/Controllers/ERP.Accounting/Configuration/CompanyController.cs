@@ -26,12 +26,12 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
             {
                 var result = await _companyService.GetByIdAsync(uuid,ct);
 
-                if (result.is_valid)
+                if (result.IsValid == false)
                 {
-                    return ApiResponseFactory.ValidationError(result.message);
+                    return ApiResponseFactory.ValidationError(result.Message);
                 }
 
-                return ApiResponseFactory.Success(result.data, result.message);
+                return ApiResponseFactory.Success(result.Data, result.Message);
             }
             catch (Exception ex)
             {
@@ -46,12 +46,12 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
             {
                 var result = await _companyService.CreateAsync(request, ct);
 
-                if (result.is_valid)
+                if (result.IsValid == false)
                 {
-                    return ApiResponseFactory.ValidationError(result.message);
+                    return ApiResponseFactory.ValidationError(result.Message);
                 }
 
-                return ApiResponseFactory.Success(result.message);
+                return ApiResponseFactory.Success(result.Message);
             }
             catch (Exception ex)
             {

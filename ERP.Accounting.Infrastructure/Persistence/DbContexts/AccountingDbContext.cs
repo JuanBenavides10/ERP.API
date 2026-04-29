@@ -17,6 +17,12 @@ namespace ERP.Accounting.Infrastructure.Persistence.DbContexts
 
         // DbSets
         public DbSet<CompanyEntity> Companies { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)  // Aplica convención snake_case 
+        {       
+            optionsBuilder.UseSnakeCaseNamingConvention();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)   // Aplica TODAS las configuraciones IEntityTypeConfiguration<>
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountingDbContext).Assembly);

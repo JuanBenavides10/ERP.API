@@ -4,7 +4,7 @@ using ERP.Accounting.Application.Services.Configuration;
 using ERP.Accounting.Infrastructure.Persistence.DbContexts;
 using ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration;
 using ERP.Api.Middleware;
-using ERP.Api.Presentation.Contracts.Responses;
+using ERP.Api.Presentation.Contracts;
 using ERP.Identity.Application.Interfaces;
 using ERP.Identity.Application.Services;
 using ERP.Identity.Infrastructure.Persistence.DbContexts;
@@ -36,33 +36,32 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 builder.Services.AddAutoMapper(cfg => { }, typeof(CompanyProfile));
 
 //Cambiamos el codigo de error Http del ModelState , de 400 a 422 segun se acordo
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
     {
-        // Agrupar todos los mensajes de error por campo
+        // Construye: { "Campo": ["error1", "error2"] }
         var errores = context.ModelState
-            .Where(e => e.Value.Errors.Count > 0)
-            .GroupBy(
-                e => e.Key,
-                e => e.Value.Errors.Select(error => error.ErrorMessage).ToList()
-            )
+            .Where(kvp => kvp.Value is not null && kvp.Value.Errors.Count > 0)
             .ToDictionary(
-                g => g.Key,
-                g => g.SelectMany(x => x).ToList()
+                kvp => kvp.Key,
+                kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
             );
 
-        var response422 = new ApiResponse<object>
+        var response422 = new ApiResponse<object?>
         {
-            success = false,
-            status_code = 422,
-            message = "Error de validación",
-            errors = errores
+            Success = false,
+            StatusCode = StatusCodes.Status422UnprocessableEntity,
+            Message = "Error de validación",
+            Data = null,
+            Errors = errores
         };
 
         return new UnprocessableEntityObjectResult(response422);
     };
 });
+
 
 //DI
 

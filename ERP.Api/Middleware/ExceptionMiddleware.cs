@@ -1,5 +1,5 @@
 ﻿
-using ERP.Api.Presentation.Contracts.Responses;
+using ERP.Api.Presentation.Contracts;
 using ERP.Shared.Exceptions;
 using System.Text.Json;
 
@@ -37,9 +37,9 @@ namespace ERP.Api.Middleware
 
             var response = new ApiResponse<object>
             {
-                success = false,
-                status_code = ex._status_code,
-                message = ex.Message
+                Success = false,
+                StatusCode= ex._status_code,
+                Message = ex.Message
             };
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
@@ -52,9 +52,9 @@ namespace ERP.Api.Middleware
 
             var response = new ApiResponse<object>
             {
-                success = false,
-                status_code = 500,
-                message = "Error interno del servidor"
+                Success = false,
+                StatusCode = 500,
+                Message = "Error interno del servidor"
             };
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));

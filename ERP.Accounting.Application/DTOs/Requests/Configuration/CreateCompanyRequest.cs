@@ -11,30 +11,30 @@ namespace ERP.Accounting.Application.DTOs.Requests.Configuration
     {
         [Display(Name = "Codigo de compañia")]
         [StringLength(5, MinimumLength = 5, ErrorMessage = "El campo {0} debe tener exactamente {1} caracteres")]
-        public string code { get; set; }
+        public string Code { get; set; }
 
         [Display(Name = "Razon social")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         [StringLength(maximumLength: 120, ErrorMessage = "El campo {0} debe ser menor igual a {1} caracteres")]
-        public string company_name { get; set; }
+        public string CompanyName { get; set; }
 
         [Display(Name = "Direccion")]
         [StringLength(maximumLength: 200, ErrorMessage = "El campo {0} debe ser menor igual a {1} caracteres")]
-        public string address { get; set; } 
+        public string Address { get; set; } 
 
         [Display(Name = "Ruc")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "El campo {0} debe tener exactamente {1} caracteres")]
-        public string ruc { get; set; }
+        public string Ruc { get; set; }
 
         [Display(Name = "Correo")]
         [EmailAddress(ErrorMessage = "El correo no tiene un formato válido.")]
         [StringLength(maximumLength: 40, ErrorMessage = "El campo {0} debe ser menor igual a {1} caracteres")]
-        public string? email { get; set; }
+        public string? Email { get; set; }
 
         [Display(Name = "Telefono")]
         [StringLength(maximumLength: 25, ErrorMessage = "El campo {0} debe ser menor igual a {1} caracteres")]
-        public string? phone { get; set; }
-        public byte[]? logo { get; set; }
+        public string? Phone { get; set; }
+        public byte[]? Logo { get; set; }
     }
 }

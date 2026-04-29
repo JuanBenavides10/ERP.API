@@ -16,39 +16,39 @@ namespace ERP.Accounting.Infrastructure.Persistence.Configurations
         {
             builder.ToTable("companies");
 
-            builder.HasKey(c => c.id);
+            builder.HasKey(c => c.Id);
 
-            builder.HasIndex(x => x.uuid).IsUnique();
+            builder.HasIndex(x => x.Uuid).IsUnique();
 
-            builder.Property(x => x.uuid)
+            builder.Property(x => x.Uuid)
                    .HasColumnType("uuid")
                    .HasDefaultValueSql("gen_random_uuid()") // PostgreSQL genera el UUID
                    .ValueGeneratedOnAdd()
                    .IsRequired();
 
-            builder.Property(c => c.code)
+            builder.Property(c => c.Code)
                    .HasColumnType("char(5)") 
                    .IsRequired();
 
-            builder.Property(c => c.company_name)
+            builder.Property(c => c.CompanyName)
                    .HasColumnType("varchar(120)") 
                    .IsRequired();
 
-            builder.Property(c => c.address)
+            builder.Property(c => c.Address)
                    .HasColumnType("varchar(200)")
                    .IsRequired();
 
-            builder.Property(c => c.ruc)
+            builder.Property(c => c.Ruc)
                  .HasColumnType("varchar(11)")
                  .IsRequired();
 
-            builder.Property(c => c.email)
+            builder.Property(c => c.Email)
                 .HasColumnType("varchar(40)");
 
-            builder.Property(c => c.phone)
+            builder.Property(c => c.Phone)
                .HasColumnType("varchar(25)");
 
-            builder.Property(c => c.logo)
+            builder.Property(c => c.Logo)
                       .HasColumnType("bytea");
 
         }

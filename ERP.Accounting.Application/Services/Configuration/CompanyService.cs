@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ERP.Accounting.Application.Contracts;
+using ERP.Shared.Common;
 using ERP.Accounting.Application.DTOs.Requests;
 using ERP.Accounting.Application.DTOs.Requests.Configuration;
 using ERP.Accounting.Application.DTOs.Responses;
@@ -27,31 +27,31 @@ namespace ERP.Accounting.Application.Services.Configuration
             _mapper = mapper;
         }
 
-        public async Task<ValidationResponse<GetCompanyResponse>> GetByIdAsync(Guid uuid, CancellationToken ct)
+        public async Task<ValidationResult<GetCompanyResponse>> GetByIdAsync(Guid uuid, CancellationToken ct)
         {
             if (uuid == Guid.Empty)
             {
-                return ValidationResponse<GetCompanyResponse>.Failure("El identificador de la compañía es inválido.");
+                return ValidationResult<GetCompanyResponse>.Failure("El identificador de la compañía es inválido.");
             }
             var entity = await _companyRepository.GetByIdAsync(uuid, ct);
 
             if (entity == null)
             {
-                return ValidationResponse<GetCompanyResponse>.Failure("La compañía consultada no se encuentra registrada en el sistema.");
+                return ValidationResult<GetCompanyResponse>.Failure("La compañía consultada no se encuentra registrada en el sistema.");
             }
 
             var dto = _mapper.Map<GetCompanyResponse>(entity);
 
-            return ValidationResponse<GetCompanyResponse>.Success(dto, "Compañía obtenida correctamente");
+            return ValidationResult<GetCompanyResponse>.Success(dto, "Compañía obtenida correctamente");
         }
 
-        public async Task<ValidationResponse> CreateAsync(CreateCompanyRequest request, CancellationToken ct)
+        public async Task<ValidationResult> CreateAsync(CreateCompanyRequest request, CancellationToken ct)
         {      
-            var exists = await _companyRepository.ExistsByCodeAsync(request.code, ct);
+            var exists = await _companyRepository.ExistsByCodeAsync(request.Code, ct);
 
             if (exists)
             {
-                return ValidationResponse.Failure("Ya existe una compañía registrada con el mismo codigo.");
+                return ValidationResult.Failure("Ya existe una compañía registrada con el mismo codigo.");
             }
               
             var entity = _mapper.Map<CompanyEntity>(request);
@@ -59,7 +59,7 @@ namespace ERP.Accounting.Application.Services.Configuration
             _companyRepository.Add(entity);
             await _companyRepository.SaveChangesAsync(ct);
 
-            return ValidationResponse.Success("Compañía creada correctamente.");
+            return ValidationResult.Success("Compañía creada correctamente.");
         }
 
 

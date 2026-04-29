@@ -1,4 +1,4 @@
-﻿using ERP.Accounting.Application.Contracts;
+﻿using ERP.Shared.Common;
 using ERP.Accounting.Application.DTOs.Requests.Configuration;
 using ERP.Accounting.Application.DTOs.Responses.Configuration;
 using System;
@@ -11,7 +11,7 @@ namespace ERP.Accounting.Application.Interfaces.Configuration
 {
     public interface ICompanyService
     {
-        Task<ValidationResponse> CreateAsync(CreateCompanyRequest request, CancellationToken ct);
-        Task<ValidationResponse<GetCompanyResponse>> GetByIdAsync(Guid uuid, CancellationToken ct);
+        Task<ValidationResult> CreateAsync(CreateCompanyRequest request, CancellationToken ct);
+        Task<ValidationResult<GetCompanyResponse>> GetByIdAsync(Guid uuid, CancellationToken ct);
     }
 }
