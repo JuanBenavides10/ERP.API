@@ -13,5 +13,6 @@ namespace ERP.Accounting.Application.Interfaces.Configuration
     {
         Task<ValidationResult> CreateAsync(CreateCompanyRequest request, CancellationToken ct);
         Task<ValidationResult<GetCompanyResponse>> GetByIdAsync(Guid uuid, CancellationToken ct);
+        Task<ValidationResult> UpdateAsync(Guid uuid, UpdateCompanyRequest request, CancellationToken ct);
     }
 }

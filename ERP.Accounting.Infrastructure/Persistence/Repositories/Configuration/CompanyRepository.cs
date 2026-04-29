@@ -36,6 +36,11 @@ namespace ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration
             return _db.Companies.AsNoTracking().AnyAsync(x => x.Code == code, ct);
         }
 
+        public Task<CompanyEntity?> GetByIdForUpdateAsync(Guid uuid, CancellationToken ct = default)
+        {
+            return _db.Companies.FirstOrDefaultAsync(x => x.Uuid == uuid, ct);
+        }
+
 
     }
 }

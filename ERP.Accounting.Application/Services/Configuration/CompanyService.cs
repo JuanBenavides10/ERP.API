@@ -20,7 +20,7 @@ namespace ERP.Accounting.Application.Services.Configuration
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IMapper _mapper;
-
+        private const int MaxLogoBytes = 1 * 1024 * 1024; // 1 M
         public CompanyService(ICompanyRepository companyRepository, IMapper mapper)
         {
             _companyRepository = companyRepository;
@@ -53,7 +53,13 @@ namespace ERP.Accounting.Application.Services.Configuration
             {
                 return ValidationResult.Failure("Ya existe una compañía registrada con el mismo codigo.");
             }
-              
+
+            var logoValidation = ValidateLogoBytes(request.Logo);
+            if (!logoValidation.IsValid)
+            {
+                return logoValidation;
+            }
+             
             var entity = _mapper.Map<CompanyEntity>(request);
 
             _companyRepository.Add(entity);
@@ -62,6 +68,53 @@ namespace ERP.Accounting.Application.Services.Configuration
             return ValidationResult.Success("Compañía creada correctamente.");
         }
 
+        public async Task<ValidationResult> UpdateAsync(Guid uuid, UpdateCompanyRequest request, CancellationToken ct)
+        {
+            if (uuid == Guid.Empty)
+            {
+                return ValidationResult.Failure("El identificador de la compañía es inválido.");
+            }        
+            // Importante: para actualizar necesitas entidad TRACKED
+            var entity = await _companyRepository.GetByIdForUpdateAsync(uuid, ct);
+
+            if (entity is null)
+            {
+                return ValidationResult.Failure("La compañía consultada no se encuentra registrada en el sistema.");
+            }
+
+            var logoValidation = ValidateLogoBytes(request.Logo);
+            if (!logoValidation.IsValid)
+            {
+                return logoValidation;
+            }
+
+            // Mapear request -> entity existente (tracked)
+            _mapper.Map(request, entity);
+
+            await _companyRepository.SaveChangesAsync(ct);
+
+            return ValidationResult.Success("Compañía actualizada correctamente.");
+        }
+
+        private static ValidationResult ValidateLogoBytes(byte[]? logo)
+        {
+            if (logo is null)
+            {
+                return ValidationResult.Success("OK"); // no envió logo
+            }
+              
+            if (logo.Length == 0)
+            {
+                return ValidationResult.Failure("El logo está vacío.");
+            }
+              
+            if (logo.Length > MaxLogoBytes)
+            {
+                return ValidationResult.Failure("El logo supera el tamaño máximo permitido (1 MB).");
+            }
+               
+            return ValidationResult.Success("OK");
+        }
 
 
     }

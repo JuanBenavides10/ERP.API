@@ -12,6 +12,7 @@ namespace ERP.Accounting.Application.Interfaces.Configuration
         void Add(CompanyEntity entity);
         Task<bool> ExistsByCodeAsync(string code, CancellationToken ct = default);
         Task<CompanyEntity?> GetByIdAsync(Guid uuid, CancellationToken ct = default);
+        Task<CompanyEntity?> GetByIdForUpdateAsync(Guid uuid, CancellationToken ct = default);
         Task<int> SaveChangesAsync(CancellationToken ct = default);
     }
 }

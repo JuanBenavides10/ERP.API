@@ -16,6 +16,14 @@ namespace ERP.Accounting.Application.Mappings.Configuration
         {
             CreateMap<CreateCompanyRequest, CompanyEntity>();
             CreateMap<CompanyEntity,GetCompanyResponse>();
+
+
+            CreateMap<UpdateCompanyRequest, CompanyEntity>()
+                        // Evita que mapper cambie el Uuid, Id o campos no editables
+                        .ForMember(d => d.Uuid, opt => opt.Ignore())
+                        .ForMember(d => d.Id, opt => opt.Ignore())
+                        .ForMember(d => d.Code, opt => opt.Ignore());
+
         }
     }
 }

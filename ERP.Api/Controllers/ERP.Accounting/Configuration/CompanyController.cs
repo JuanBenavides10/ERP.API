@@ -46,7 +46,7 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
             {
                 var result = await _companyService.CreateAsync(request, ct);
 
-                if (result.IsValid == false)
+                if (!result.IsValid)
                 {
                     return ApiResponseFactory.ValidationError(result.Message);
                 }
@@ -59,5 +59,23 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
             }
         }
 
+        [HttpPut("{uuid:guid}")]
+        public async Task<IActionResult> Update(Guid uuid, [FromBody] UpdateCompanyRequest request, CancellationToken ct)
+        {
+            try
+            {
+                var result = await _companyService.UpdateAsync(uuid, request, ct);
+
+                if (!result.IsValid)
+                {
+                    return ApiResponseFactory.ValidationError(result.Message);
+                }
+                return ApiResponseFactory.Success(result.Message);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponseFactory.ServerError(ex);
+            }
+        }
     }
 }
