@@ -1,13 +1,16 @@
-﻿using ERP.Accounting.Application.DTOs.Requests.Configuration;
+﻿using ERP.Accounting.Application.DTOs.Requests.Company;
+using ERP.Accounting.Application.DTOs.Requests.Pagination;
+using ERP.Accounting.Application.DTOs.Responses.Company;
+using ERP.Accounting.Application.DTOs.Responses.Pagination;
 using ERP.Accounting.Application.Interfaces;
-using ERP.Accounting.Application.Interfaces.Configuration;
+using ERP.Accounting.Application.Interfaces.Company;
 using ERP.Accounting.Application.Services;
-using ERP.Accounting.Application.Services.Configuration;
+using ERP.Api.Presentation.Contracts;
 using ERP.Api.Presentation.Contracts.Responses;
 using ERP.Api.Presentation.Factories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ERP.Api.Controllers.ERP.Accounting.Configuration
+namespace ERP.Api.Controllers.ERP.Accounting.Company
 {
     [ApiController]
     [Route("api/accounting/companies")]
@@ -18,6 +21,24 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
         {
             _companyService = companyService;
         }
+
+
+        [HttpGet("companies-paginadas")]
+
+        public async Task<IActionResult> GetPaged([FromQuery] PaginacionRequest paginacion,[FromQuery] CompanyFiltrosRequest filtros,CancellationToken ct)
+        {
+            try
+            {
+                var result = await _companyService.GetPagedAsync(filtros, paginacion, ct);
+             
+                return ApiResponseFactory.Success(result.Data, result.Message);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponseFactory.ServerError(ex);
+            }
+        }
+
 
         [HttpGet("{uuid:guid}")]
         public async Task<IActionResult> GetById(Guid uuid, CancellationToken ct)
@@ -40,7 +61,11 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCompanyRequest request, CancellationToken ct)
+        [Consumes("multipart/form-data")]
+        [RequestSizeLimit(2 * 1024 * 1024)] // 2MB total cuerpo HTTP completo (archivo + campos)
+        [RequestFormLimits(MultipartBodyLengthLimit = 2 * 1024 * 1024)] //2MB , el que convierte multipart en DTO [FromForm]
+
+        public async Task<IActionResult> Create([FromForm] CreateCompanyRequest request, CancellationToken ct)
         {
             try
             {
@@ -60,7 +85,10 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
         }
 
         [HttpPut("{uuid:guid}")]
-        public async Task<IActionResult> Update(Guid uuid, [FromBody] UpdateCompanyRequest request, CancellationToken ct)
+        [Consumes("multipart/form-data")]
+        [RequestSizeLimit(2 * 1024 * 1024)] // 2MB total cuerpo HTTP completo (archivo + campos)
+        [RequestFormLimits(MultipartBodyLengthLimit = 2 * 1024 * 1024)] //2MB , el que convierte multipart en DTO [FromForm]
+        public async Task<IActionResult> Update(Guid uuid, [FromForm] UpdateCompanyRequest request, CancellationToken ct)
         {
             try
             {
@@ -77,5 +105,6 @@ namespace ERP.Api.Controllers.ERP.Accounting.Configuration
                 return ApiResponseFactory.ServerError(ex);
             }
         }
+
     }
 }

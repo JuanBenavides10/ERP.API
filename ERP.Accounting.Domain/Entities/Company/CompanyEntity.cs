@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP.Accounting.Domain.Entities.Configuration
+namespace ERP.Accounting.Domain.Entities.Company
 {
     public class CompanyEntity
     {
@@ -16,6 +16,8 @@ namespace ERP.Accounting.Domain.Entities.Configuration
         public string Ruc { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public byte[]? Logo { get; set; }
+
+        //public byte[]? Logo { get; set; }
+        public string? LogoPath { get; set; }
     }
 }

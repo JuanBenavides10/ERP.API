@@ -3,6 +3,7 @@ using System;
 using ERP.Accounting.Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Accounting.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountingDbContext))]
-    partial class AccountingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260430193128_ImgColumn2")]
+    partial class ImgColumn2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

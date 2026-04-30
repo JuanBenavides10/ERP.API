@@ -1,5 +1,5 @@
 ﻿using ERP.Accounting.Domain.Entities;
-using ERP.Accounting.Domain.Entities.Configuration;
+using ERP.Accounting.Domain.Entities.Company;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

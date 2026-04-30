@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP.Accounting.Application.DTOs.Responses.Configuration
+namespace ERP.Accounting.Application.DTOs.Responses.Company
 {
     public class GetCompanyResponse
      {
@@ -15,6 +15,6 @@ namespace ERP.Accounting.Application.DTOs.Responses.Configuration
         public string Ruc { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public byte[]? Logo { get; set; }
+        public string? LogoPath { get; set; }
     }
 }

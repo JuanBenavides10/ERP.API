@@ -1,4 +1,4 @@
-﻿using ERP.Accounting.Domain.Entities.Configuration;
+﻿using ERP.Accounting.Domain.Entities.Company;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -48,8 +48,8 @@ namespace ERP.Accounting.Infrastructure.Persistence.Configurations
             builder.Property(c => c.Phone)
                .HasColumnType("varchar(25)");
 
-            builder.Property(c => c.Logo)
-                      .HasColumnType("bytea");
+            builder.Property(c => c.LogoPath)
+                      .HasColumnType("varchar(100)");
 
         }
     }

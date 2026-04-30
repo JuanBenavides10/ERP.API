@@ -1,14 +1,17 @@
-using ERP.Accounting.Application.Interfaces.Configuration;
-using ERP.Accounting.Application.Mappings.Configuration;
-using ERP.Accounting.Application.Services.Configuration;
+using ERP.Accounting.Application.Interfaces.Company;
+using ERP.Accounting.Application.Interfaces.Storage;
+using ERP.Accounting.Application.Mappings.Company;
+using ERP.Accounting.Application.Services.Company;
 using ERP.Accounting.Infrastructure.Persistence.DbContexts;
-using ERP.Accounting.Infrastructure.Persistence.Repositories.Configuration;
+using ERP.Accounting.Infrastructure.Persistence.Repositories.Company;
+using ERP.Accounting.Infrastructure.Storage;
 using ERP.Api.Middleware;
 using ERP.Api.Presentation.Contracts;
 using ERP.Identity.Application.Interfaces;
 using ERP.Identity.Application.Services;
 using ERP.Identity.Infrastructure.Persistence.DbContexts;
 using ERP.Identity.Infrastructure.Persistence.Repositories;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,22 +34,28 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
     )
 );
 
-
-//AutoMapper -> para mapear de las entidades a los DTOs o viceverca
-builder.Services.AddAutoMapper(cfg => { }, typeof(CompanyProfile));
-
 //Cambiamos el codigo de error Http del ModelState , de 400 a 422 segun se acordo
-
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
     {
-        // Construye: { "Campo": ["error1", "error2"] }
         var errores = context.ModelState
             .Where(kvp => kvp.Value is not null && kvp.Value.Errors.Count > 0)
             .ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                //kvp => kvp.Key,
+                //kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+
+                kvp => string.IsNullOrWhiteSpace(kvp.Key) ? "Detail" : kvp.Key,
+                kvp => kvp.Value!.Errors.Select(e =>
+                {
+                    var msg = string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Error de validación." : e.ErrorMessage;
+
+                    if (msg.Contains("Failed to read the request form", StringComparison.OrdinalIgnoreCase) || msg.Contains("Request body too large", StringComparison.OrdinalIgnoreCase))
+                    {
+                        msg = "El archivo o el contenido enviado supera el tamaño permitido.";
+                    }
+                    return msg;
+                }).ToArray()
             );
 
         var response422 = new ApiResponse<object?>
@@ -62,6 +71,14 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
+//AutoMapper -> para mapear de las entidades a los DTOs o viceverca
+builder.Services.AddAutoMapper(cfg => { }, typeof(CompanyProfile));
+
+//IMG
+
+builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
+builder.Services.AddScoped<IFileStorage, FileStorage>();
+
 
 //DI
 
@@ -70,6 +87,9 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+
+
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
