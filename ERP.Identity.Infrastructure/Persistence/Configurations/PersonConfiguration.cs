@@ -4,39 +4,39 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ERP.Identity.Infrastructure.Persistence.Configurations
 {
-    internal class PersonConfiguration : IEntityTypeConfiguration<Person>
+    internal class PersonConfiguration : IEntityTypeConfiguration<PersonEntity>
     {
-        public void Configure(EntityTypeBuilder<Person> builder)
+        public void Configure(EntityTypeBuilder<PersonEntity> builder)
         {
             builder.ToTable("persons");
 
-            builder.HasKey(x => x.id);
+            builder.HasKey(x => x.Id);
 
-            builder.HasIndex(x => x.uuid).IsUnique();
+            builder.HasIndex(x => x.Uuid).IsUnique();
 
-            builder.Property(x => x.uuid)
+            builder.Property(x => x.Uuid)
                 .HasColumnType("uuid")
                 .HasDefaultValueSql("gen_random_uuid()")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Property(x => x.first_name)
+            builder.Property(x => x.FirstName)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(x => x.last_name)
+            builder.Property(x => x.LastName)
                 .HasMaxLength(100);
 
-            builder.Property(x => x.document_type)
+            builder.Property(x => x.DocumentType)
                 .HasMaxLength(20);
 
-            builder.Property(x => x.email)
+            builder.Property(x => x.Email)
                 .HasMaxLength(100);
 
-            builder.Property(x => x.active)
+            builder.Property(x => x.Active)
                 .HasDefaultValue(true);
 
-            builder.Property(x => x.created_at)
+            builder.Property(x => x.CreatedAt)
                 .HasDefaultValueSql("now()");
         }
     }

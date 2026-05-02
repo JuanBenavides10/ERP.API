@@ -14,7 +14,7 @@ namespace ERP.Identity.Infrastructure.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<(Person person, Users user)> create_user(Person person, Users user)
+        public async Task<(PersonEntity person, UsersEntity user)> create_user(PersonEntity person, UsersEntity user)
         {
             using var transaction = await _db.Database.BeginTransactionAsync();
 
@@ -23,7 +23,7 @@ namespace ERP.Identity.Infrastructure.Persistence.Repositories
                 await _db.Person.AddAsync(person);
                 await _db.SaveChangesAsync();
                 
-                user.person_id = person.id;
+                user.PersonId = person.Id;
 
                 await _db.Users.AddAsync(user);
                 await _db.SaveChangesAsync();
@@ -39,16 +39,16 @@ namespace ERP.Identity.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task<Users?> get_user_by_user_name(string user_name)
+        public async Task<UsersEntity?> get_user_by_user_name(string user_name)
         {
             return await _db.Users
-                .Include(x => x.person)
-                .FirstOrDefaultAsync(x => x.user_name == user_name);
+                .Include(x => x.Person)
+                .FirstOrDefaultAsync(x => x.UserName == user_name);
         }
 
         public async Task<bool> user_name_exists(string user_name)
         {
-            return await _db.Users.AnyAsync(x => x.user_name == user_name);
+            return await _db.Users.AnyAsync(x => x.UserName == user_name);
         }
     }
 }

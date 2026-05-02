@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ERP.Identity.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class create_user : Migration
+    public partial class InitialIdentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +33,7 @@ namespace ERP.Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_persons", x => x.id);
+                    table.PrimaryKey("pk_persons", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,9 +55,9 @@ namespace ERP.Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.id);
+                    table.PrimaryKey("pk_users", x => x.id);
                     table.ForeignKey(
-                        name: "FK_users_persons_person_id",
+                        name: "fk_users_person_person_id",
                         column: x => x.person_id,
                         principalSchema: "identity",
                         principalTable: "persons",
@@ -66,27 +66,27 @@ namespace ERP.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_persons_uuid",
+                name: "ix_persons_uuid",
                 schema: "identity",
                 table: "persons",
                 column: "uuid",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_person_id",
+                name: "ix_users_person_id",
                 schema: "identity",
                 table: "users",
                 column: "person_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_user_name",
+                name: "ix_users_user_name",
                 schema: "identity",
                 table: "users",
                 column: "user_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_uuid",
+                name: "ix_users_uuid",
                 schema: "identity",
                 table: "users",
                 column: "uuid",

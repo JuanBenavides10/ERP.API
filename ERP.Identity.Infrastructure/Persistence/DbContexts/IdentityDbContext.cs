@@ -13,8 +13,13 @@ namespace ERP.Identity.Infrastructure.Persistence.DbContexts
     {
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) { }
 
-        public DbSet<Person> Person { get; set; }
-        public DbSet<Users> Users { get; set; }
+        public DbSet<PersonEntity> Person { get; set; }
+        public DbSet<UsersEntity> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)  // Aplica convención snake_case 
+        {
+            optionsBuilder.UseSnakeCaseNamingConvention();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

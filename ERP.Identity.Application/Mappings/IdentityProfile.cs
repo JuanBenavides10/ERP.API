@@ -14,8 +14,9 @@ namespace ERP.Identity.Application.Mappings
     {
         public IdentityProfile()
         {
-            CreateMap<CreateUserRequest, Users>();
-        
+            CreateMap<CreateUserRequest, PersonEntity>(); //importante -> request al userentity
+
+         
         }
     }
 }

@@ -6,8 +6,8 @@ namespace ERP.Identity.Application.Interfaces
 {
     public interface IUserRepository
     {
-        Task<(Person person, Users user)> create_user(Person person, Users user);
+        Task<(PersonEntity person, UsersEntity user)> create_user(PersonEntity person, UsersEntity user);
         Task<bool> user_name_exists(string user_name);
-        Task<Users?> get_user_by_user_name(string user_name);
+        Task<UsersEntity?> get_user_by_user_name(string user_name);
     }
 }

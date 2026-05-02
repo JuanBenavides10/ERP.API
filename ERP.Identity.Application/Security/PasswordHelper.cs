@@ -11,7 +11,7 @@
             }
         }
 
-        public static bool verify_password(string password, byte[] hash, byte salt)
+        public static bool verify_password(string password, byte[] hash, byte[] salt)
         {
             using (var hmac = new System.Security.Cryptography.Rfc2898DeriveBytes(password, salt, 10000))
             {

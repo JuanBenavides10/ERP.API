@@ -8,12 +8,16 @@ using ERP.Accounting.Infrastructure.Storage;
 using ERP.Api.Middleware;
 using ERP.Api.Presentation.Contracts;
 using ERP.Identity.Application.Interfaces;
+using ERP.Identity.Application.Security;
 using ERP.Identity.Application.Services;
 using ERP.Identity.Infrastructure.Persistence.DbContexts;
 using ERP.Identity.Infrastructure.Persistence.Repositories;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using ERP.Identity.Application.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,7 +77,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 //AutoMapper -> para mapear de las entidades a los DTOs o viceverca
 builder.Services.AddAutoMapper(cfg => { }, typeof(CompanyProfile));
-
+builder.Services.AddAutoMapper(cfg => { }, typeof(IdentityProfile));
 //IMG
 
 builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
@@ -89,6 +93,29 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
+//JWT
+builder.Services.AddScoped<JwtHelper>();
+
+
+var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
@@ -103,6 +130,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
